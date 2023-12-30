@@ -4,3 +4,6 @@
 **/*.csv
 **/*.crc
 **/*.parquet
+
+# pycache
+**/__pycache__
