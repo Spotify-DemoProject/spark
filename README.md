@@ -11,5 +11,5 @@ Kafka 채널을 구독하고 있으며, 해당 채널에 발행된 메세지를 
 - Spark v3.5.0<br><br>
 
 # Results
-<img width="721" alt="스크린샷 2023-12-30 오후 9 57 48" src="https://github.com/Spotify-DemoProject/spark/assets/130134750/cc222dff-0e84-4394-9d4f-ecd921717ec5">
+<img width="721" alt="스크린샷 2023-12-30 오후 9 57 48" src="https://github.com/Spotify-DemoProject/spark/assets/130134750/cc222dff-0e84-4394-9d4f-ecd921717ec5"><br>
 생성된 .parquet 데이터는 AWS S3 버킷 내부에 적재됩니다.
