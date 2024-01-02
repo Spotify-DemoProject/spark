@@ -35,6 +35,33 @@ def create_albums(spark, json_dir:str):
         .withColumn("track_number", expr("track.track_number")) \
         .select("album_id", "album_name", "artist_id", "albums.album_type", "albums.label", "album_image_url", "track_id", "track_name", "track_number", "disc_number", "duration_ms", "explicit", "albums.release_date", "albums.total_tracks")
 
-    
     return df
 
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+def create_tracks(spark, json_dir:str):
+    from pyspark.sql.functions import col, explode, expr
+
+    df = spark.read.option("multiline", "true").json(json_dir) \
+        .selectExpr("explode(audio_features) as audio_features") \
+        .select("audio_features.*")
+        
+    # df = spark.read.option("multiline", "true").json(json_dir) \
+    #     .select(explode("audio_features").alias("audio_features")) \
+    #     .withColumn("id", expr("audio_features.id")) \
+    #     .withColumn("key", expr("audio_features.key")) \
+    #     .withColumn("tempo", expr("audio_features.tempo")) \
+    #     .withColumn("time_signature", expr("audio_features.time_signature")) \
+    #     .withColumn("valence", expr("audio_features.valence")) \
+    #     .withColumn("speechiness", expr("audio_features.speechiness")) \
+    #     .withColumn("loudness", expr("audio_features.loudness")) \
+    #     .withColumn("liveness", expr("audio_features.liveness")) \
+    #     .withColumn("instrumentalness", expr("audio_features.instrumentalness")) \
+    #     .withColumn("energy", expr("audio_features.energy")) \
+    #     .withColumn("danceability", expr("audio_features.danceability")) \
+    #     .withColumn("acousticness", expr("audio_features.acousticness")) \
+    #     .withColumn("mode", expr("audio_features.mode")) \
+    #     .withColumn("analysis_url", expr("audio_features.analysis_url")) \
+    #     .select("id", "key", "tempo", "time_signature", "valence", "speechiness", "loudness", "liveness", "instrumentalness", "energy", "danceability", "acousticness", "mode", "analysis_url")
+    
+    return df

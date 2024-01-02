@@ -35,6 +35,8 @@ def process_data(batchDF, batchId, spark):
             df = create_albums(spark=spark, json_dir=json_dir)
         elif category == "artists":
             df = create_artists(spark=spark, json_dir=json_dir)
+        elif category == "tracks":
+            df = create_tracks(spark=spark, json_dir=json_dir)
     
         df \
         .coalesce(1) \

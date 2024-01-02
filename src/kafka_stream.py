@@ -7,7 +7,7 @@ from manufacture_json import *
 from pyspark import SparkConf, SparkContext
 from pyspark.sql import SparkSession
 
-conf = SparkConf().setAppName("streaming_pub_sub") \
+conf = SparkConf().setAppName("spotify-kafka-streaming") \
                   .setMaster("spark://workspace:7077")
 sparkContext = SparkContext(conf=conf)
 spark = SparkSession(sparkContext=sparkContext)
