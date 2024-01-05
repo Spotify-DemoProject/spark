@@ -5,6 +5,15 @@ sys.path.append(lib_dir)
 
 from create_dataframe import *
 
+"""
+Key : ANYTHING
+Value : {
+            "insert_date": "YYYY-mm-dd",
+            "category": "albums" OR "artists" OR "tracks/main" OR "tracks/audio_features"
+        }
+
+"""
+
 def process_data(batchDF, batchId, spark):
     from pyspark.sql.functions import col, from_json
     from pyspark.sql.types import StringType, StructType, StructField
@@ -35,8 +44,10 @@ def process_data(batchDF, batchId, spark):
             df = create_albums(spark=spark, json_dir=json_dir)
         elif category == "artists":
             df = create_artists(spark=spark, json_dir=json_dir)
-        elif category == "tracks":
+        elif category == "tracks/main":
             df = create_tracks(spark=spark, json_dir=json_dir)
+        elif category == "tracks/audio_features":
+            df = create_tracks_af(spark=spark, json_dir=json_dir)
     
         df \
         .coalesce(1) \
@@ -46,13 +57,12 @@ def process_data(batchDF, batchId, spark):
         
 
     except Exception as e:
-        print(f">>>>>>>>>>>>ERROR : {e}")
+        print(f">>>>>>>>>>>>ERROR : {e}") # TEST
       
     end_time = time()
     spent_time = str({"time_spent": float(f"{end_time - start_time:.2f}")})
     
-    # TEST <<<<<<<<<
-    print(f">>>>>>>>>>> time_spent : {spent_time}")
+    print(f">>>>>>>>>>> time_spent : {spent_time}") # TEST
     
     try:
         time_df = batchDF.drop("value") \
@@ -68,8 +78,4 @@ def process_data(batchDF, batchId, spark):
             .save()
 
     except Exception as e:
-        print(f">>>>>>>>>>>>ERROR : {e}")   
-
-# demo:{'insert_date':'2023-12-25', 'category':'albums'}
-# demo:{'insert_date':'2023-12-25', 'category':'artists'}
-# demo:{'insert_date':'2023-12-25', 'category':'tracks'}
+        print(f">>>>>>>>>>>>ERROR : {e}") # TEST

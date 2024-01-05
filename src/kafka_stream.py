@@ -4,13 +4,12 @@ lib_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../lib")
 sys.path.append(lib_dir)
 
 from manufacture_json import *
-from pyspark import SparkConf, SparkContext
-from pyspark.sql import SparkSession
 
-conf = SparkConf().setAppName("spotify-kafka-streaming") \
-                  .setMaster("spark://workspace:7077")
-sparkContext = SparkContext(conf=conf)
-spark = SparkSession(sparkContext=sparkContext)
+import pyspark
+spark = pyspark.sql.SparkSession.builder.appName("spotify-kafka-streaming") \
+            .master("spark://workspace:7077") \
+            .config("spark.jars.packages", "org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.0") \
+            .getOrCreate()
 
 kafka_bootstrap_servers = "localhost:9092"
 input_kafka_topic = "spotify-raw"
